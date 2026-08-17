@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COOUCodeGuard - Offline Source Code Plagiarism Detection System</title>
+    
+    <!-- Google Fonts for Editorial IBM Plex Mono & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/code_viewer.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-wrapper">
+                    <div class="brand-badge">CG</div>
+                    <div>
+                        <div class="brand-title">COOUCodeGuard</div>
+                        <div class="brand-meta">ULI CAMPUS &bull; CS DEPT</div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">01 // OVERVIEW</div>
+                <a href="#dashboard" class="nav-item active">
+                    <span data-lucide="layout-dashboard"></span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#submissions" class="nav-item">
+                    <span data-lucide="files"></span>
+                    <span>Submissions</span>
+                </a>
+                <a href="#upload" class="nav-item">
+                    <span data-lucide="upload-cloud"></span>
+                    <span>Ingest File</span>
+                </a>
+
+                <div class="nav-section-title">02 // AUDIT_ENGINE</div>
+                <a href="#scan" class="nav-item">
+                    <span data-lucide="scan"></span>
+                    <span>Plagiarism Scan</span>
+                </a>
+                <a href="#results" class="nav-item">
+                    <span data-lucide="git-compare"></span>
+                    <span>Code Diff &amp; Results</span>
+                </a>
+                <a href="#repository" class="nav-item">
+                    <span data-lucide="database"></span>
+                    <span>Local Repository</span>
+                </a>
+                <a href="#reports" class="nav-item">
+                    <span data-lucide="file-text"></span>
+                    <span>Audit Dossiers</span>
+                </a>
+
+                <div class="nav-section-title">03 // SYSTEM_OPS</div>
+                <a href="#settings" class="nav-item">
+                    <span data-lucide="settings"></span>
+                    <span>Diagnostics &amp; Data</span>
+                </a>
+                <a href="#landing" class="nav-item" style="color:var(--color-accent);">
+                    <span data-lucide="external-link"></span>
+                    <span>Showcase Landing</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-badge">
+                    <div class="user-avatar" id="user-avatar-initials">CE</div>
+                    <div class="user-meta">
+                        <div class="user-name" id="user-full-name">Dr. Chukwuma Eze</div>
+                        <div class="user-role" id="user-role-label">LECTURER</div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-icon btn-sm" onclick="App.logout()" title="Logout" style="background:transparent; border-color:var(--color-border); color:var(--color-text-main);">
+                    <span data-lucide="log-out"></span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-wrapper">
+            <header class="topbar" id="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title" id="page-title">Forensic Overview</h1>
+                </div>
+                <div class="topbar-center">
+                    <div class="system-status-indicator">
+                        <div class="status-dot"></div>
+                        <span>OFFLINE_ENGINE : ONLINE</span>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--color-text-muted); text-align:right;">
+                        COOU &bull; COMPUTER SCIENCE<br>
+                        <span style="font-size:0.68rem; color:var(--color-text-subtle);">ULI CAMPUS, ANAMBRA</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body" id="content-body">
+                <!-- Injected via Router and View Modules -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Global Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Offline Vendors -->
+    <script src="js/vendor/lucide.js"></script>
+    <script src="js/vendor/chart.js"></script>
+
+    <!-- Core App Infrastructure -->
+    <script src="js/api.js"></script>
+    <script src="js/state.js"></script>
+
+    <!-- Views -->
+    <script src="js/views/landing_view.js"></script>
+    <script src="js/views/auth_view.js"></script>
+    <script src="js/views/dashboard_view.js"></script>
+    <script src="js/views/submissions_view.js"></script>
+    <script src="js/views/upload_view.js"></script>
+    <script src="js/views/scan_view.js"></script>
+    <script src="js/views/results_view.js"></script>
+    <script src="js/views/repository_view.js"></script>
+    <script src="js/views/reports_view.js"></script>
+    <script src="js/views/settings_view.js"></script>
+
+    <!-- Router & App Lifecycle -->
+    <script src="js/router.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

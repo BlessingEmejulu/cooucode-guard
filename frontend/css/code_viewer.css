@@ -1,0 +1,165 @@
+/* ==========================================================================
+   Forensic Code Laboratory Side-by-Side Diff Viewer
+   ========================================================================== */
+
+.diff-viewer-wrapper {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-top: 24px;
+    box-shadow: var(--shadow-md);
+}
+
+.diff-toolbar {
+    padding: 14px 20px;
+    background: var(--color-bg-subtle);
+    border-bottom: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.diff-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--color-terminal-bg);
+    min-height: 520px;
+    max-height: 680px;
+}
+
+.diff-pane {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-right: 2px solid var(--color-border);
+}
+
+.diff-pane:last-child {
+    border-right: none;
+}
+
+.diff-pane-header {
+    background: #141517;
+    color: #E6E6E6;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #28292C;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.diff-pane-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    line-height: 1.65;
+    padding: 12px 0;
+    color: #D1D5DB;
+}
+
+.code-line {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    min-height: 23px;
+    white-space: pre;
+    user-select: text;
+    transition: background var(--transition-fast);
+}
+
+.code-line:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.line-number {
+    width: 44px;
+    color: #55575E;
+    text-align: right;
+    margin-right: 18px;
+    user-select: none;
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.line-text {
+    flex: 1;
+}
+
+/* Matching highlights */
+.code-line.matched {
+    background-color: rgba(229, 57, 53, 0.22);
+    border-left: 3px solid var(--color-danger);
+}
+
+.code-line.matched .line-number {
+    color: #EF5350;
+    font-weight: 700;
+}
+
+.code-line.matched .line-text {
+    color: #FFCDD2;
+}
+
+.code-line.highlight-focus {
+    background-color: rgba(36, 87, 255, 0.35) !important;
+    border-left: 3px solid var(--color-accent) !important;
+}
+
+/* Matching blocks navigation tray */
+.matching-blocks-tray {
+    padding: 14px 20px;
+    background: var(--color-bg);
+    border-top: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.match-chip {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all var(--transition-fast);
+    box-shadow: 1px 1px 0px var(--color-border);
+}
+
+.match-chip:hover, .match-chip.active {
+    border-color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent);
+    transform: translate(-1px, -1px);
+    box-shadow: 2px 2px 0px var(--color-accent);
+}
+
+@media (max-width: 900px) {
+    .diff-grid {
+        grid-template-columns: 1fr;
+    }
+}
