@@ -31,9 +31,11 @@ window.Router = {
             return window[viewName];
         }
         
-        // Fallback for built-in views
+        // Explicit global view fallbacks
         if (viewName === 'LandingView' && window.LandingView) return window.LandingView;
+        if (viewName === 'AuthView' && window.AuthView) return window.AuthView;
         if (viewName === 'StudentPortalView' && window.StudentPortalView) return window.StudentPortalView;
+        if (viewName === 'DashboardView' && window.DashboardView) return window.DashboardView;
         return null;
     },
 

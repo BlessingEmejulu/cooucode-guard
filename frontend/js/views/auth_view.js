@@ -1,7 +1,7 @@
 /**
  * Editorial Technical Auth View with Lecturer & Student Portals
  */
-window.AuthView = {
+var AuthView = {
     currentPortal: 'lecturer', // 'lecturer' | 'student'
 
     render() {
@@ -181,12 +181,18 @@ window.AuthView = {
         this.currentPortal = portal;
         const isStudent = portal === 'student';
         
-        document.getElementById('tab-lecturer').className = `btn btn-sm ${!isStudent ? 'btn-primary' : 'btn-secondary'}`;
-        document.getElementById('tab-student').className = `btn btn-sm ${isStudent ? 'btn-primary' : 'btn-secondary'}`;
+        const tabLec = document.getElementById('tab-lecturer');
+        const tabStu = document.getElementById('tab-student');
+        if (tabLec) tabLec.className = `btn btn-sm ${!isStudent ? 'btn-primary' : 'btn-secondary'}`;
+        if (tabStu) tabStu.className = `btn btn-sm ${isStudent ? 'btn-primary' : 'btn-secondary'}`;
 
-        document.getElementById('login-email-label').textContent = isStudent ? 'Student Institutional Email' : 'Lecturer Institutional Email';
-        document.getElementById('login-email').value = isStudent ? 'student@coou.edu.ng' : 'lecturer@coou.edu.ng';
-        document.getElementById('login-password').value = isStudent ? 'cooustudent2026' : 'coouguard2026';
+        const emailLbl = document.getElementById('login-email-label');
+        const emailInp = document.getElementById('login-email');
+        const passInp = document.getElementById('login-password');
+
+        if (emailLbl) emailLbl.textContent = isStudent ? 'Student Institutional Email' : 'Lecturer Institutional Email';
+        if (emailInp) emailInp.value = isStudent ? 'student@coou.edu.ng' : 'lecturer@coou.edu.ng';
+        if (passInp) passInp.value = isStudent ? 'cooustudent2026' : 'coouguard2026';
     },
 
     handleRoleChange(role) {
@@ -197,13 +203,19 @@ window.AuthView = {
     },
 
     setMode(mode) {
-        document.getElementById('login-form-container').style.display = (mode === 'login') ? 'block' : 'none';
-        document.getElementById('register-form-container').style.display = (mode === 'register') ? 'block' : 'none';
-        document.getElementById('forgot-form-container').style.display = (mode === 'forgot') ? 'block' : 'none';
+        const loginC = document.getElementById('login-form-container');
+        const regC = document.getElementById('register-form-container');
+        const forgotC = document.getElementById('forgot-form-container');
+
+        if (loginC) loginC.style.display = (mode === 'login') ? 'block' : 'none';
+        if (regC) regC.style.display = (mode === 'register') ? 'block' : 'none';
+        if (forgotC) forgotC.style.display = (mode === 'forgot') ? 'block' : 'none';
 
         if (mode === 'forgot') {
-            document.getElementById('forgot-step-1').style.display = 'block';
-            document.getElementById('forgot-step-2').style.display = 'none';
+            const step1 = document.getElementById('forgot-step-1');
+            const step2 = document.getElementById('forgot-step-2');
+            if (step1) step1.style.display = 'block';
+            if (step2) step2.style.display = 'none';
         }
 
         const errDiv = document.getElementById('auth-error');
@@ -227,7 +239,7 @@ window.AuthView = {
         const errDiv = document.getElementById('auth-error');
 
         try {
-            errDiv.style.display = 'none';
+            if (errDiv) errDiv.style.display = 'none';
             const data = await API.login(email, password);
             API.setToken(data.access_token);
             State.setUser(data.user);
@@ -240,8 +252,10 @@ window.AuthView = {
                 window.location.hash = '#dashboard';
             }
         } catch (error) {
-            errDiv.textContent = `> AUTH_FAILED: ${error.message || 'Login failed'}`;
-            errDiv.style.display = 'block';
+            if (errDiv) {
+                errDiv.textContent = `> AUTH_FAILED: ${error.message || 'Login failed'}`;
+                errDiv.style.display = 'block';
+            }
         }
     },
 
@@ -255,7 +269,7 @@ window.AuthView = {
         const errDiv = document.getElementById('auth-error');
 
         try {
-            errDiv.style.display = 'none';
+            if (errDiv) errDiv.style.display = 'none';
             const data = await API.request('/api/auth/register', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -276,8 +290,10 @@ window.AuthView = {
                 window.location.hash = '#dashboard';
             }
         } catch (error) {
-            errDiv.textContent = `> REGISTRATION_FAILED: ${error.message || 'Failed'}`;
-            errDiv.style.display = 'block';
+            if (errDiv) {
+                errDiv.textContent = `> REGISTRATION_FAILED: ${error.message || 'Failed'}`;
+                errDiv.style.display = 'block';
+            }
         }
     },
 
@@ -288,10 +304,12 @@ window.AuthView = {
         const succDiv = document.getElementById('auth-success');
         const btn = document.getElementById('forgot-req-btn');
 
-        btn.disabled = true;
-        btn.innerHTML = 'VERIFYING...';
-        errDiv.style.display = 'none';
-        succDiv.style.display = 'none';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = 'VERIFYING...';
+        }
+        if (errDiv) errDiv.style.display = 'none';
+        if (succDiv) succDiv.style.display = 'none';
 
         try {
             const res = await API.forgotPassword(email);
@@ -301,13 +319,19 @@ window.AuthView = {
             document.getElementById('recovery-user-info').textContent = `Account: ${res.user_name} (${res.email})`;
             document.getElementById('reset-code-input').value = res.reset_code;
 
-            succDiv.textContent = `> VERIFIED: Security token generated [${res.reset_code}]. Set your new password.`;
-            succDiv.style.display = 'block';
+            if (succDiv) {
+                succDiv.textContent = `> VERIFIED: Security token generated [${res.reset_code}]. Set your new password.`;
+                succDiv.style.display = 'block';
+            }
         } catch (err) {
-            errDiv.textContent = `> RECOVERY_ERROR: ${err.message}`;
-            errDiv.style.display = 'block';
-            btn.disabled = false;
-            btn.innerHTML = 'Generate Security Recovery Token &rarr;';
+            if (errDiv) {
+                errDiv.textContent = `> RECOVERY_ERROR: ${err.message}`;
+                errDiv.style.display = 'block';
+            }
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = 'Generate Security Recovery Token &rarr;';
+            }
         }
     },
 
@@ -323,19 +347,25 @@ window.AuthView = {
         const btn = document.getElementById('reset-submit-btn');
 
         if (newPass !== confirmPass) {
-            errDiv.textContent = '> ERROR: Passwords do not match.';
-            errDiv.style.display = 'block';
+            if (errDiv) {
+                errDiv.textContent = '> ERROR: Passwords do not match.';
+                errDiv.style.display = 'block';
+            }
             return;
         }
 
-        btn.disabled = true;
-        btn.innerHTML = 'UPDATING...';
-        errDiv.style.display = 'none';
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = 'UPDATING...';
+        }
+        if (errDiv) errDiv.style.display = 'none';
 
         try {
             await API.resetPassword(email, resetCode, newPass);
-            succDiv.textContent = '> SUCCESS: Password updated successfully. Redirecting to login...';
-            succDiv.style.display = 'block';
+            if (succDiv) {
+                succDiv.textContent = '> SUCCESS: Password updated successfully. Redirecting to login...';
+                succDiv.style.display = 'block';
+            }
 
             App.showToast('Password updated successfully. Please log in.', 'success');
 
@@ -345,10 +375,16 @@ window.AuthView = {
                 document.getElementById('login-password').value = newPass;
             }, 1200);
         } catch (err) {
-            errDiv.textContent = `> RESET_FAILED: ${err.message}`;
-            errDiv.style.display = 'block';
-            btn.disabled = false;
-            btn.innerHTML = 'Update Password &amp; Authenticate &rarr;';
+            if (errDiv) {
+                errDiv.textContent = `> RESET_FAILED: ${err.message}`;
+                errDiv.style.display = 'block';
+            }
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = 'Update Password &amp; Authenticate &rarr;';
+            }
         }
     }
 };
+
+window.AuthView = AuthView;
