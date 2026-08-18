@@ -8,33 +8,40 @@ from analysis_engine.ai_pattern_detector import AIPatternDetector
 from analysis_engine.report_generator import ReportGenerator
 
 def seed_demo_data(db: Session):
-    # Check if data already exists
-    if db.query(User).first():
-        return
+    # 1. Ensure Demo Users (Lecturer, Admin, and Student) exist
+    if not db.query(User).filter(User.email == "lecturer@coou.edu.ng").first():
+        lecturer = User(
+            full_name="Dr. Chukwuma Eze (COOU CS)",
+            email="lecturer@coou.edu.ng",
+            password_hash=get_password_hash("coouguard2026"),
+            role="lecturer"
+        )
+        db.add(lecturer)
+    
+    if not db.query(User).filter(User.email == "admin@coou.edu.ng").first():
+        admin = User(
+            full_name="Department Admin (COOU HOD)",
+            email="admin@coou.edu.ng",
+            password_hash=get_password_hash("admin2026"),
+            role="admin"
+        )
+        db.add(admin)
 
-    # 1. Create Demo Users (Lecturer, Admin, and Student)
-    lecturer = User(
-        full_name="Dr. Chukwuma Eze (COOU CS)",
-        email="lecturer@coou.edu.ng",
-        password_hash=get_password_hash("coouguard2026"),
-        role="lecturer"
-    )
-    admin = User(
-        full_name="Department Admin (COOU HOD)",
-        email="admin@coou.edu.ng",
-        password_hash=get_password_hash("admin2026"),
-        role="admin"
-    )
-    student = User(
-        full_name="Okonkwo Emeka (Student)",
-        email="student@coou.edu.ng",
-        matric_number="2022/COOU/CSC/042",
-        password_hash=get_password_hash("cooustudent2026"),
-        role="student"
-    )
-    db.add_all([lecturer, admin, student])
+    if not db.query(User).filter(User.email == "student@coou.edu.ng").first():
+        student = User(
+            full_name="Okonkwo Emeka (Student)",
+            email="student@coou.edu.ng",
+            matric_number="2022/COOU/CSC/042",
+            password_hash=get_password_hash("cooustudent2026"),
+            role="student"
+        )
+        db.add(student)
+    
     db.commit()
-    db.refresh(lecturer)
+
+    # Check if courses already exist
+    if db.query(Course).first():
+        return
 
     # 2. Create Courses
     csc201 = Course(

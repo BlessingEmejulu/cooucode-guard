@@ -21,6 +21,17 @@ def test_auth_login():
     assert "access_token" in data
     assert data["user"]["email"] == "lecturer@coou.edu.ng"
 
+def test_student_login():
+    response = client.post("/api/auth/login", json={
+        "email": "student@coou.edu.ng",
+        "password": "cooustudent2026"
+    })
+    assert response.status_code == 200
+    data = response.json()
+    assert "access_token" in data
+    assert data["user"]["email"] == "student@coou.edu.ng"
+    assert data["user"]["role"] == "student"
+
 def test_forgot_and_reset_password():
     # 1. Request recovery code
     req_res = client.post("/api/auth/forgot-password", json={
