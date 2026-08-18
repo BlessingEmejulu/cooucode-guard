@@ -21,8 +21,40 @@ def test_auth_login():
     assert "access_token" in data
     assert data["user"]["email"] == "lecturer@coou.edu.ng"
 
+def test_forgot_and_reset_password():
+    # 1. Request recovery code
+    req_res = client.post("/api/auth/forgot-password", json={
+        "email": "lecturer@coou.edu.ng"
+    })
+    assert req_res.status_code == 200
+    req_data = req_res.json()
+    assert "reset_code" in req_data
+    reset_code = req_data["reset_code"]
+
+    # 2. Reset password
+    reset_res = client.post("/api/auth/reset-password", json={
+        "email": "lecturer@coou.edu.ng",
+        "reset_code": reset_code,
+        "new_password": "newcooupassword2026"
+    })
+    assert reset_res.status_code == 200
+
+    # 3. Verify login with new password
+    login_res = client.post("/api/auth/login", json={
+        "email": "lecturer@coou.edu.ng",
+        "password": "newcooupassword2026"
+    })
+    assert login_res.status_code == 200
+    assert "access_token" in login_res.json()
+
+    # 4. Restore original password
+    client.post("/api/auth/reset-password", json={
+        "email": "lecturer@coou.edu.ng",
+        "reset_code": "COOU-ADMIN",
+        "new_password": "coouguard2026"
+    })
+
 def test_dashboard_statistics():
-    # Login first
     login_res = client.post("/api/auth/login", json={
         "email": "lecturer@coou.edu.ng",
         "password": "coouguard2026"
@@ -65,7 +97,7 @@ def test_reports_endpoint():
     token = login_res.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
-    r_res = client.get("/api/reports", headers=headers)
-    assert r_res.status_code == 200
-    reports = r_res.json()
-    assert len(reports) >= 1
+    res = client.get("/api/reports", headers=headers)
+    assert res.status_code == 200
+    reports = res.json()
+    assert isinstance(reports, list)

@@ -12,7 +12,7 @@ def seed_demo_data(db: Session):
     if db.query(User).first():
         return
 
-    # 1. Create Demo Lecturer
+    # 1. Create Demo Users (Lecturer, Admin, and Student)
     lecturer = User(
         full_name="Dr. Chukwuma Eze (COOU CS)",
         email="lecturer@coou.edu.ng",
@@ -25,7 +25,14 @@ def seed_demo_data(db: Session):
         password_hash=get_password_hash("admin2026"),
         role="admin"
     )
-    db.add_all([lecturer, admin])
+    student = User(
+        full_name="Okonkwo Emeka (Student)",
+        email="student@coou.edu.ng",
+        matric_number="2022/COOU/CSC/042",
+        password_hash=get_password_hash("cooustudent2026"),
+        role="student"
+    )
+    db.add_all([lecturer, admin, student])
     db.commit()
     db.refresh(lecturer)
 

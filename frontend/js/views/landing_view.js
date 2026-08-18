@@ -1,7 +1,7 @@
 /**
  * Landing Page View - Awwwards-Inspired Editorial Showcase
  */
-window.LandingView = {
+var LandingView = {
     render() {
         return `
         <div class="landing-wrapper">
@@ -109,7 +109,7 @@ window.LandingView = {
                     <div class="workflow-card">
                         <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--color-accent); font-weight:700; margin-bottom:10px;">WEIGHT: 25%</div>
                         <h3 class="workflow-title">Normalized Token Invariants</h3>
-                        <p class="workflow-desc">Normalizes variable names into sequential canonical symbols (`ID_1`, `ID_2`, `KW_DEF`) to detect cloned algorithmic flow.</p>
+                        <p class="workflow-desc">Normalizes variable names into sequential canonical symbols (ID_1, ID_2, KW_DEF) to detect cloned algorithmic flow.</p>
                     </div>
 
                     <div class="workflow-card">
@@ -181,3 +181,5 @@ window.LandingView = {
         `;
     }
 };
+
+window.LandingView = LandingView;

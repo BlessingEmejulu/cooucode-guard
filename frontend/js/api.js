@@ -103,6 +103,20 @@ const API = {
         });
     },
 
+    forgotPassword(email) {
+        return this.request('/api/auth/forgot-password', {
+            method: 'POST',
+            body: JSON.stringify({ email })
+        });
+    },
+
+    resetPassword(email, resetCode, newPassword) {
+        return this.request('/api/auth/reset-password', {
+            method: 'POST',
+            body: JSON.stringify({ email, reset_code: resetCode, new_password: newPassword })
+        });
+    },
+
     getMe() {
         return this.request('/api/auth/me');
     },

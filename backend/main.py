@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from backend.config import BASE_DIR, APP_NAME, APP_TITLE, APP_VERSION
-from backend.database import engine, Base, SessionLocal
+from backend.database import engine, Base, SessionLocal, init_db_schema
 from backend.services.demo_data import seed_demo_data
 from backend.routers import (
     auth_router,
@@ -18,8 +18,8 @@ from backend.routers import (
     system_router
 )
 
-# Initialize database tables
-Base.metadata.create_all(bind=engine)
+# Initialize database tables & auto-migrations
+init_db_schema()
 
 # Seed demo dataset on startup
 try:

@@ -9,8 +9,9 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     full_name = Column(String(150), nullable=False)
     email = Column(String(150), unique=True, index=True, nullable=False)
+    matric_number = Column(String(50), nullable=True, index=True)
     password_hash = Column(String(255), nullable=False)
-    role = Column(String(50), default="lecturer") # lecturer, admin
+    role = Column(String(50), default="lecturer") # lecturer, admin, student
     created_at = Column(DateTime, default=datetime.utcnow)
 
     scans = relationship("Scan", back_populates="user", cascade="all, delete-orphan")
